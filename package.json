@@ -1,0 +1,32 @@
+{
+  "name": "olifish-fr",
+  "version": "2.0.0",
+  "description": "Underwater photographies repository of Olivier Colli. Used by: olifish.com, olifish.fr, olifish.de",
+  "main": "",
+  "scripts": {
+    "lint": "eslint ./examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olivier-colli/olifish-fr.git"
+  },
+  "keywords": [
+    "underwater photography",
+    "fish",
+    "galleries",
+    "photo",
+    "diving",
+    "underwater",
+    "photographies",
+    "fish"
+  ],
+  "author": "Stéphane Langlois - pntbr - scopyleft",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/olivier-colli/olifish-fr/issues"
+  },
+  "homepage": "https://github.com/olivier-colli/olifish-fr#readme",
+  "dependencies": {
+    "node-exiftool": "^2.3.0"
+  }
+}
