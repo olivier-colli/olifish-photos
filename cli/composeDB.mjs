@@ -22,6 +22,7 @@ Format brut metas
 input: interesting metas
 {
   RawFileName: 'thumb-3.jpg',
+  ImageSize: '300x200',
   Keywords: [
     'De: Bart-Feuerborstenwurm',
     'Eng: Bearded Fireworm',
@@ -33,7 +34,9 @@ input: interesting metas
 output:
 {
     thumb: 'thumb/thumb-3.jpg'
-    img: 'thumb/img-3.jpg'
+    img: 'thumb/img-3.jpg',
+    thumbSize: { width: '2400', height: '1600' },
+    imageSize: { width: '300', height: '200' },
     nameDe: Bart-Feuerborstenwurm',
     nameEn: Bearded Fireworm',
     nameFr: Ver de feu',
@@ -41,18 +44,20 @@ output:
     location: lanzarote'
 }
 */
-function formatMetas(metas) {
-    const id = metas.RawFileName.match(/^thumb-([0-9]*).*/)[1]
-    const keywords = formatKeywords(metas.Keywords)
-
+function formatMetas(meta) {
+    const id = meta.RawFileName.match(/^thumb-([0-9]*).*/)[1]
+    const keywords = formatKeywords(meta.Keywords)
+    const size = getSizes(meta.ImageSize)
     return {
         'thumb': path.join(thumbsDir, `thumb-${id}.jpg`),
         'img': path.join(imgsDir, `thumb-${id}.jpg`),
+        'thumbSize': {...size.thumb},
+        'imgSize': {...size.img},
         'nameDe': keywords.De,
         'nameEn': keywords.Eng,
         'nameFr': keywords.Fr,
         'nameLat': keywords.Lat,
-        'location': keywords.Loc 
+        'location': keywords.Loc
     }
 
     function formatKeywords(keywords) {
@@ -67,5 +72,22 @@ function formatMetas(metas) {
 
                 return Object.assign(obj, {[key]: value})
             }, {})
+    }
+
+    function getSizes(imageSize) {
+        const thumbSize = {'width': +imageSize.split('x')[0], 'height': +imageSize.split('x')[1]}
+
+        return {
+            'img': {...thumbSize},
+            'thumb': {...setImageSize(thumbSize)}
+        }
+
+        function  setImageSize(thumbSize) {
+            if (thumbSize.width > thumbSize.height) {
+              return {'width': 2400, 'height': 1600}
+            } else {
+              return {'width': 1060, 'height': 1600}
+            }
+        }
     }
 }
