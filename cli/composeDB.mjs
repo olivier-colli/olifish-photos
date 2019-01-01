@@ -1,16 +1,19 @@
 import ep from 'node-exiftool'
 import path from 'path'
+import fs from 'fs'
+
 
 const exiftool = new ep.ExiftoolProcess()
 const thumbsDir = 'thumb'
 const imgsDir = 'img'
 const importThumbsDir = 'img/thumb'
+const DBfile = 'data.json'
 
 exiftool.open()
     .then(() => exiftool.readMetadata(importThumbsDir, ['-File:all']))
     .then((metas) => {
         const metasCleaned = metas.data.map(meta => formatMetas(meta))
-        console.log(metasCleaned)
+        writeDB(JSON.stringify(metasCleaned))
         console.log('metas.error:', metas.error)        
     })
     .then(() => exiftool.close())
@@ -91,3 +94,8 @@ function formatMetas(meta) {
         }
     }
 }
+
+const writeDB = content =>
+    fs.writeFile(DBfile, content, 'utf8', err => {
+        if (err) throw err
+    })
