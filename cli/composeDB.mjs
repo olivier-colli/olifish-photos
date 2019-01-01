@@ -9,7 +9,9 @@ const importThumbsDir = 'img/thumb'
 exiftool.open()
     .then(() => exiftool.readMetadata(importThumbsDir, ['-File:all']))
     .then((metas) => {
-        console.log(formatMetas(metas.data[0]))        
+        const metasCleaned = metas.data.map(meta => formatMetas(meta))
+        console.log(metasCleaned)
+        console.log('metas.error:', metas.error)        
     })
     .then(() => exiftool.close())
     .catch(console.error)
@@ -42,10 +44,10 @@ output:
 function formatMetas(metas) {
     const id = metas.RawFileName.match(/^thumb-([0-9]*).*/)[1]
     const keywords = formatKeywords(metas.Keywords)
-    console.log(keywords)
+
     return {
-        'thumb': path.join('thumbsDir', `thumb-${id}.jpg`),
-        'img': path.join('thumbsDir', `thumb-${id}.jpg`),
+        'thumb': path.join(thumbsDir, `thumb-${id}.jpg`),
+        'img': path.join(imgsDir, `thumb-${id}.jpg`),
         'nameDe': keywords.De,
         'nameEn': keywords.Eng,
         'nameFr': keywords.Fr,
@@ -61,10 +63,9 @@ function formatMetas(metas) {
             }))
             .reduce((obj, item) => {
                 const key = Object.keys(item)[0]
-                const value = 'Object.values(item)[0]' || '?'
-                console.log(key, value)
-                return Object.assign(obj, {[key]: value})}
-            , {})
+                const value = Object.values(item)[0] || '?'
+
+                return Object.assign(obj, {[key]: value})
+            }, {})
     }
 }
-
