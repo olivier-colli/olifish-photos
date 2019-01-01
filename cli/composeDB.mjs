@@ -56,7 +56,7 @@ function formatMetas(meta) {
     return {
         'filepath': {
             'thumb': path.join(thumbsDir, `thumb-${id}.jpg`),
-            'img': path.join(imgsDir, `thumb-${id}.jpg`)
+            'img': path.join(imgsDir, `img-${id}.jpg`)
         },
         'thumbSize': {...size.thumb},
         'imgSize': {...size.img},
