@@ -36,8 +36,10 @@ input: interesting metas
 }
 output:
 {
-    thumb: 'thumb/thumb-3.jpg'
-    img: 'thumb/img-3.jpg',
+    filepath: {
+        thumb: 'thumb/thumb-3.jpg',
+        img: 'thumb/img-3.jpg'
+    }
     thumbSize: { width: '2400', height: '1600' },
     imageSize: { width: '300', height: '200' },
     nameDe: Bart-Feuerborstenwurm',
@@ -52,8 +54,10 @@ function formatMetas(meta) {
     const keywords = formatKeywords(meta.Keywords)
     const size = getSizes(meta.ImageSize)
     return {
-        'thumb': path.join(thumbsDir, `thumb-${id}.jpg`),
-        'img': path.join(imgsDir, `thumb-${id}.jpg`),
+        'filepath': {
+            'thumb': path.join(thumbsDir, `thumb-${id}.jpg`),
+            'img': path.join(imgsDir, `thumb-${id}.jpg`)
+        },
         'thumbSize': {...size.thumb},
         'imgSize': {...size.img},
         'nameDe': keywords.De,
