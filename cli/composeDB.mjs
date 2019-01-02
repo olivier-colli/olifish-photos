@@ -2,7 +2,6 @@ import ep from 'node-exiftool'
 import path from 'path'
 import fs from 'fs'
 
-
 const exiftool = new ep.ExiftoolProcess()
 const thumbsDir = 'thumb'
 const imgsDir = 'img'
@@ -12,7 +11,9 @@ const DBfile = 'data.json'
 exiftool.open()
     .then(() => exiftool.readMetadata(importThumbsDir, ['-File:all']))
     .then((metas) => {
-        const metasCleaned = metas.data.map(meta => formatMetas(meta))
+        const metasCleaned = metas.data
+        .filter(meta => meta.RawFileName.match(/^thumb-([0-9]*).*/))
+        .map(meta => formatMetas(meta))
         writeDB(JSON.stringify(metasCleaned))
         console.log('metas.error:', metas.error)        
     })
@@ -51,7 +52,8 @@ output:
 */
 function formatMetas(meta) {
     const id = meta.RawFileName.match(/^thumb-([0-9]*).*/)[1]
-    const keywords = formatKeywords(meta.Keywords)
+    console.log('meta.RawFileName', meta.RawFileName)
+    const keywords = meta.hasOwnProperty('Keywords') && Array.isArray(meta.Keywords) ? formatKeywords(meta.Keywords) : []
     const size = getSizes(meta.ImageSize)
     return {
         'filepath': {

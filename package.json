@@ -4,7 +4,8 @@
   "description": "Underwater photographies repository of Olivier Colli. Used by: olifish.com, olifish.fr, olifish.de",
   "main": "",
   "scripts": {
-    "lint": "eslint ./examples"
+    "lint": "eslint ./examples",
+    "compose-db": "node --experimental-modules --no-warnings cli/composeDB.mjs"
   },
   "repository": {
     "type": "git",
