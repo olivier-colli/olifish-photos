@@ -27,12 +27,12 @@ input: interesting metas
 {
   RawFileName: 'thumb-3.jpg',
   ImageSize: '300x200',
+  Title: lanzarote',
   Keywords: [
     'De: Bart-Feuerborstenwurm',
     'Eng: Bearded Fireworm',
     'Fr: Ver de feu',
     'Lat: Hermodice carunculata',
-    'Loc: lanzarote'
   ]
 }
 output:
@@ -52,7 +52,6 @@ output:
 */
 function formatMetas(meta) {
     const id = meta.RawFileName.match(/^thumb-([0-9]*).*/)[1]
-    console.log('meta.RawFileName', meta.RawFileName)
     const keywords = meta.hasOwnProperty('Keywords') && Array.isArray(meta.Keywords) ? formatKeywords(meta.Keywords) : []
     const size = getSizes(meta.ImageSize)
     return {
@@ -66,7 +65,7 @@ function formatMetas(meta) {
         'nameEn': keywords.Eng,
         'nameFr': keywords.Fr,
         'nameLat': keywords.Lat,
-        'location': keywords.Loc
+        'location': keywords.Title
     }
 
     function formatKeywords(keywords) {
