@@ -82,12 +82,12 @@ function formatMetas(meta) {
             }, {})
     }
 
-    function getSizes(imageSize) {
-        const thumbSize = {'width': +imageSize.split('x')[0], 'height': +imageSize.split('x')[1]}
+    function getSizes(thumbSizeMeta) {
+        const thumbSize = {'width': +thumbSizeMeta.split('x')[0], 'height': +thumbSizeMeta.split('x')[1]}
 
         return {
-            'img': {...thumbSize},
-            'thumb': {...setImageSize(thumbSize)}
+            'thumb': {...thumbSize},
+            'img': {...setImageSize(thumbSize)}
         }
 
         function  setImageSize(thumbSize) {
