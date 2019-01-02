@@ -61,11 +61,11 @@ function formatMetas(meta) {
         },
         'thumbSize': {...size.thumb},
         'imgSize': {...size.img},
+        'location': meta.Title,
         'nameDe': keywords.De,
         'nameEn': keywords.Eng,
         'nameFr': keywords.Fr,
         'nameLat': keywords.Lat,
-        'location': keywords.Title
     }
 
     function formatKeywords(keywords) {
