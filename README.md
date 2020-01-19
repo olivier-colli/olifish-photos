@@ -11,4 +11,6 @@ Dépôt des photos des sites olifish :
 
 ### Base de données
 
+Les métas des photos sont stockées dans un fichier :
+
 - [base de données](./data.json)
