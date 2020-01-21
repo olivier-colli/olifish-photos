@@ -12,7 +12,6 @@ exiftool
     .open()
     .then(() => exiftool.readMetadata(importThumbsDir, ['-File:all']))
     .then(metas => {
-        console.log('metas', metas)
         const metasCleaned = metas.data
             .filter(meta => meta.RawFileName.match(/^thumb-([0-9]*).*/))
             .map(meta => formatMetas(meta))
