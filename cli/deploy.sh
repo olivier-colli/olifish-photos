@@ -6,7 +6,6 @@ sudo apt-get install imagemagick
 
 exiftool -ver
 
-git checkout master
 node --experimental-modules --no-warnings cli/composeDB.mjs
 git add data.json
 git commit -m "Update data.json"
