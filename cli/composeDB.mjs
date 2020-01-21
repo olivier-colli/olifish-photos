@@ -8,14 +8,15 @@ const imgsDir = 'img'
 const importThumbsDir = 'img/thumb'
 const DBfile = 'data.json'
 
-exiftool.open()
+exiftool
+    .open()
     .then(() => exiftool.readMetadata(importThumbsDir, ['-File:all']))
-    .then((metas) => {
+    .then(metas => {
+        console.log('metas', metas)
         const metasCleaned = metas.data
-        .filter(meta => meta.RawFileName.match(/^thumb-([0-9]*).*/))
-        .map(meta => formatMetas(meta))
+            .filter(meta => meta.RawFileName.match(/^thumb-([0-9]*).*/))
+            .map(meta => formatMetas(meta))
         writeDB(JSON.stringify(metasCleaned))
-        console.log('metas.error:', metas.error)        
     })
     .then(() => exiftool.close())
     .catch(console.error)
@@ -52,49 +53,55 @@ output:
 */
 function formatMetas(meta) {
     const id = meta.RawFileName.match(/^thumb-([0-9]*).*/)[1]
-    const keywords = meta.hasOwnProperty('Keywords') && Array.isArray(meta.Keywords) ? formatKeywords(meta.Keywords) : []
+    const keywords =
+        meta.hasOwnProperty('Keywords') && Array.isArray(meta.Keywords)
+            ? formatKeywords(meta.Keywords)
+            : []
     const size = getSizes(meta.ImageSize)
     return {
-        'filepath': {
-            'thumb': path.join(thumbsDir, `thumb-${id}.jpg`),
-            'img': path.join(imgsDir, `img-${id}.jpg`)
+        filepath: {
+            thumb: path.join(thumbsDir, `thumb-${id}.jpg`),
+            img: path.join(imgsDir, `img-${id}.jpg`)
         },
-        'thumbSize': {...size.thumb},
-        'imgSize': {...size.img},
-        'location': meta.Title,
-        'nameDe': keywords.De,
-        'nameEn': keywords.Eng,
-        'nameFr': keywords.Fr,
-        'nameLat': keywords.Lat,
+        thumbSize: { ...size.thumb },
+        imgSize: { ...size.img },
+        location: meta.Title,
+        nameDe: keywords.De,
+        nameEn: keywords.Eng,
+        nameFr: keywords.Fr,
+        nameLat: keywords.Lat
     }
 
     function formatKeywords(keywords) {
         return keywords
             .filter(keyword => keyword.match(/\w*: \w/))
             .map(keyword => ({
-                [keyword.split(':')[0]]:  keyword.split(':')[1].trim()
+                [keyword.split(':')[0]]: keyword.split(':')[1].trim()
             }))
             .reduce((obj, item) => {
                 const key = Object.keys(item)[0]
                 const value = Object.values(item)[0] || '?'
 
-                return Object.assign(obj, {[key]: value})
+                return Object.assign(obj, { [key]: value })
             }, {})
     }
 
     function getSizes(thumbSizeMeta) {
-        const thumbSize = {'width': +thumbSizeMeta.split('x')[0], 'height': +thumbSizeMeta.split('x')[1]}
-
-        return {
-            'thumb': {...thumbSize},
-            'img': {...setImageSize(thumbSize)}
+        const thumbSize = {
+            width: +thumbSizeMeta.split('x')[0],
+            height: +thumbSizeMeta.split('x')[1]
         }
 
-        function  setImageSize(thumbSize) {
+        return {
+            thumb: { ...thumbSize },
+            img: { ...setImageSize(thumbSize) }
+        }
+
+        function setImageSize(thumbSize) {
             if (thumbSize.width > thumbSize.height) {
-              return {'width': 2400, 'height': 1600}
+                return { width: 2400, height: 1600 }
             } else {
-              return {'width': 1060, 'height': 1600}
+                return { width: 1060, height: 1600 }
             }
         }
     }
