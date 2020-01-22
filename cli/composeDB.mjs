@@ -29,9 +29,11 @@ input: interesting metas
   ImageSize: '300x200',
   Title: lanzarote',
   Keywords: [
+    'Cat: Juvénile'
     'De: Bart-Feuerborstenwurm',
     'Eng: Bearded Fireworm',
     'Fr: Ver de feu',
+    'Es: Verro de fuego',
     'Lat: Hermodice carunculata',
   ]
 }
@@ -44,10 +46,12 @@ output:
     thumbSize: { width: '2400', height: '1600' },
     imageSize: { width: '300', height: '200' },
     nameDe: Bart-Feuerborstenwurm',
-    nameEn: Bearded Fireworm',
-    nameFr: Ver de feu',
-    nameLat: Hermodice carunculata',
-    location: lanzarote'
+    cat: 'juvénile',
+    nameEn: 'Bearded Fireworm',
+    nameFr: 'Ver de feu',
+    nameEs: 'Verro de fuego',
+    nameLat: 'Hermodice carunculata',
+    location: 'lanzarote'
 }
 */
 function formatMetas(meta) {
@@ -68,7 +72,9 @@ function formatMetas(meta) {
         nameDe: keywords.De,
         nameEn: keywords.Eng,
         nameFr: keywords.Fr,
-        nameLat: keywords.Lat
+        nameEs: keywords.Es,
+        nameLat: keywords.Lat,
+        category: keywords.Cat
     }
 
     function formatKeywords(keywords) {
