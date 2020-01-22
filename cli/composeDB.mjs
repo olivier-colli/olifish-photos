@@ -29,11 +29,12 @@ input: interesting metas
   ImageSize: '300x200',
   Title: lanzarote',
   Keywords: [
-    'Cat: Juvénile'
+    'Cat: Nuit',
+    'Cat: Juvénile',
     'De: Bart-Feuerborstenwurm',
     'Eng: Bearded Fireworm',
+    'Es: Ver de fuego',
     'Fr: Ver de feu',
-    'Es: Verro de fuego',
     'Lat: Hermodice carunculata',
   ]
 }
@@ -45,13 +46,13 @@ output:
     }
     thumbSize: { width: '2400', height: '1600' },
     imageSize: { width: '300', height: '200' },
-    nameDe: Bart-Feuerborstenwurm',
-    cat: 'juvénile',
+    nameDe: 'Bart-Feuerborstenwurm',
     nameEn: 'Bearded Fireworm',
+    nameEs: 'Ver de fuego',
     nameFr: 'Ver de feu',
-    nameEs: 'Verro de fuego',
     nameLat: 'Hermodice carunculata',
-    location: 'lanzarote'
+    location: 'lanzarote',
+    category: ['Nuit', 'Juvénile']
 }
 */
 function formatMetas(meta) {
@@ -74,7 +75,7 @@ function formatMetas(meta) {
         nameFr: keywords.Fr,
         nameEs: keywords.Es,
         nameLat: keywords.Lat,
-        category: keywords.Cat
+        categories: keywords.Cat
     }
 
     function formatKeywords(keywords) {
@@ -86,8 +87,13 @@ function formatMetas(meta) {
             .reduce((obj, item) => {
                 const key = Object.keys(item)[0]
                 const value = Object.values(item)[0] || '?'
-
-                return Object.assign(obj, { [key]: value })
+                if (obj.hasOwnProperty(key)) {
+                    return Object.assign(obj, {
+                        [key]: [value].concat(obj[key])
+                    })
+                } else {
+                    return Object.assign(obj, { [key]: value })
+                }
             }, {})
     }
 
